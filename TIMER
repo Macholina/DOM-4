@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="overall">
+        <label id="display-timer">00:00:00</label>
+        <br>
+        <button id="startbtn">START</button>
+        <button id="stopbtn">STOP</button>
+        <button id="resetbtn">RESET</button>
+    </div>
+    <style>
+        #overall {
+            height: 100px;
+            width: 300px;
+            background-color: aquamarine;
+            border-radius: 15px;
+            text-align: center;
+            font-family: cursive;
+            transform: translate(150%, 300%);
+        }
+
+        button {
+            border: none;
+            padding: auto;
+            margin-top: 20px;
+            height: 30px;
+            border-radius: 5px;
+        }
+
+        #display-timer {
+            font-size: 2rem;
+        }
+    </style>
+
+    <script>
+        let displayTimer = document.querySelector("#display-timer");
+        const startBtn = document.querySelector("#startbtn");
+        const stopBtn = document.querySelector("#stopbtn");
+        const resetBtn = document.querySelector("#resetbtn");
+
+        let intervalId = null;
+        let timerStatus = "stopped";
+
+        let seconds = 0;
+        let hours = 0;
+        let minutes = 0;
+
+        // Variables for leading zero's
+
+        let leadingMinutes = 0;
+        let leadingSeconds = 0;
+        let leadingHours = 0;
+
+
+        function stopWatch() {
+
+            seconds++;
+
+            if (seconds / 60 === 1) {
+                seconds = 0;
+                minutes++;
+
+                if (minutes / 60 === 1) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+
+            if (seconds < 10) {
+                leadingSeconds = "0" + seconds.toString();
+            } else {
+                leadingSeconds = seconds;
+            }
+
+            if (minutes < 10) {
+                leadingMinutes = "0" + minutes.toString();
+            } else {
+                leadingMinutes = minutes;
+            }
+
+            if (hours < 10) {
+                leadingHours = "0" + hours.toString();
+            } else {
+                leadingHours = hours;
+            }
+
+
+            displayTimer.textContent = `${leadingHours}:${leadingMinutes}:${leadingSeconds}`;
+        }
+
+
+
+        startBtn.addEventListener("click", function () {
+            if (timerStatus === "stopped") {
+                intervalId = window.setInterval(stopWatch, 1000);
+            }
+        });
+
+
+
+        stopBtn.addEventListener("click", function () {
+            window.clearInterval(intervalId);
+
+        });
+
+        resetBtn.addEventListener("click", function () {
+            window.clearInterval(intervalId);
+            displayTimer.textContent = `00:00:00`;
+            seconds = 0;
+            hours = 0;
+            minutes = 0;
+        })
+
+
+
+
+    </script>
+</body>
+
+</html>
